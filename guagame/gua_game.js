@@ -1,4 +1,5 @@
 // 瓜
+
 class GuaGame {
     constructor(fps, images, runCallback) {
         window.fps = fps
@@ -8,6 +9,7 @@ class GuaGame {
         this.scene = null
         this.actions = {}
         this.keydowns = {}
+        this.blocks = {}
         this.canvas = document.querySelector('#id-canvas')
         this.context = this.canvas.getContext('2d')
         // events
@@ -41,7 +43,7 @@ class GuaGame {
         this.actions[key] = callback
     }
     runloop() {
-        log(window.fps)
+        // log(window.fps)
         // events
         var g = this
         var actions = Object.keys(g.actions)
@@ -65,7 +67,7 @@ class GuaGame {
     }
     imageByName(name) {
         var g = this
-        log('image by name', g.images)
+        // log('加载图片', g.images)
         var img = g.images[name]
         var image = {
             w: img.width,

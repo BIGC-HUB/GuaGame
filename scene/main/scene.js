@@ -28,6 +28,7 @@ var Scene = function(game) {
         game.drawImage(paddle)
         game.drawImage(ball)
         // draw blocks
+        let blocks = game.blocks
         for (var i = 0; i < blocks.length; i++) {
             var block = blocks[i]
             if (block.alive) {
@@ -35,6 +36,7 @@ var Scene = function(game) {
             }
         }
         // draw labels
+        game.context.fillStyle = "pink"
         game.context.fillText('分数: ' + score, 10, 290)
     }
     s.update = function() {
@@ -46,7 +48,7 @@ var Scene = function(game) {
         // 判断游戏结束
         if (ball.y > paddle.y) {
             // 跳转到 游戏结束 的场景
-            var end = SceneEnd(game)
+            var end = SceneEnd.new(game)
             game.replaceScene(end)
         }
         // 判断相撞

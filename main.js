@@ -20,9 +20,9 @@ var enableDebugMode = function(game, enable) {
         if (k == 'p') {
             // 暂停功能
             window.paused = !window.paused
-        } else if ('1234567'.includes(k)) {
+        } else if ('123'.includes(k)) {
             // 为了 debug 临时加的载入关卡功能
-            blocks = loadLevel(game, Number(k))
+            game.blocks = loadLevel(game, Number(k))
         }
     })
     // 控制速度
