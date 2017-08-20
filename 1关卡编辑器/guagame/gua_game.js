@@ -9,7 +9,7 @@ class GuaGame {
         this.scene = null
         this.actions = {}
         this.keydowns = {}
-        this.blocks = loadLevel(game, 1)
+        this.blocks = null
         this.canvas = document.querySelector('#id-canvas')
         this.context = this.canvas.getContext('2d')
         // events

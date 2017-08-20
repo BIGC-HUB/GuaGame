@@ -8,13 +8,14 @@ let Scene = function(game) {
 
     let score = 0
 
+    game.blocks = game.blocks || loadLevel(game, 1)
     game.registerAction('a', function(){
         paddle.moveLeft()
     })
     game.registerAction('d', function(){
         paddle.moveRight()
     })
-    game.registerAction('f', function(){
+    game.registerAction(' ', function(){
         ball.fire()
     })
 
@@ -27,9 +28,8 @@ let Scene = function(game) {
         game.drawImage(ball)
         // draw blocks
 
-        let blocks = game.blocks
-        for (let i = 0; i < blocks.length; i++) {
-            let block = blocks[i]
+        for (let i = 0; i < game.blocks.length; i++) {
+            let block = game.blocks[i]
             if (block.alive) {
                 game.drawImage(block)
             }
@@ -56,9 +56,8 @@ let Scene = function(game) {
             ball.反弹()
         }
         // 判断 ball 和 blocks 相撞
-        let blocks = game.blocks
-        for (let i = 0; i < blocks.length; i++) {
-            let block = blocks[i]
+        for (let i = 0; i < game.blocks.length; i++) {
+            let block = game.blocks[i]
             if (block.collide(ball)) {
                 // log('block 相撞')
                 block.kill()
@@ -74,11 +73,16 @@ let Scene = function(game) {
     game.canvas.addEventListener('mousedown', function(event) {
         let x = event.offsetX
         let y = event.offsetY
-        log(x, y, event)
+        // log(x, y, event)
         // 检查是否点中了 ball
         if (ball.hasPoint(x, y)) {
             // 设置拖拽状态
             enableDrag = true
+        } else {
+            let o = game.blocks[0]
+            // 添加砖块
+            let b = Block(game, [x, y, (Math.random()*(3-3)+1)] )
+            game.blocks.push(b)
         }
     })
     game.canvas.addEventListener('mousemove', function(event) {
@@ -86,7 +90,7 @@ let Scene = function(game) {
         let y = event.offsetY
         // log(x, y, 'move')
         if (enableDrag) {
-            log(x, y, 'drag')
+            // log(x, y, 'drag')
             ball.x = x
             ball.y = y
         }
@@ -94,7 +98,7 @@ let Scene = function(game) {
     game.canvas.addEventListener('mouseup', function(event) {
         let x = event.offsetX
         let y = event.offsetY
-        log(x, y, 'up')
+        // log(x, y, 'up')
         enableDrag = false
     })
 
