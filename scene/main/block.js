@@ -1,8 +1,8 @@
-var Block = function(game, position) {
+let Block = function(game, position) {
     // positon 是 [0, 0] 格式
-    var p = position
-    var img = game.imageByName('block')
-    var o = {
+    let p = position
+    let img = game.imageByName('block')
+    let o = {
         x: p[0],
         y: p[1],
         alive: true,

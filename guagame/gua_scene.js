@@ -3,7 +3,7 @@ class GuaScene {
         this.game = game
     }
     static new(game) {
-        var i = new this(game)
+        let i = new this(game)
         return i
     }
     draw() {

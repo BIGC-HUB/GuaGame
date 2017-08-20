@@ -1,14 +1,12 @@
-var Scene = function(game) {
-    var s = {
+let Scene = function(game) {
+    let s = {
         game: game,
     }
     // 初始化
-    var paddle = Paddle(game)
-    var ball = Ball(game)
+    let paddle = Paddle(game)
+    let ball = Ball(game)
 
-    var score = 0
-
-    var blocks = loadLevel(game, 1)
+    let score = 0
 
     game.registerAction('a', function(){
         paddle.moveLeft()
@@ -28,9 +26,10 @@ var Scene = function(game) {
         game.drawImage(paddle)
         game.drawImage(ball)
         // draw blocks
+
         let blocks = game.blocks
-        for (var i = 0; i < blocks.length; i++) {
-            var block = blocks[i]
+        for (let i = 0; i < blocks.length; i++) {
+            let block = blocks[i]
             if (block.alive) {
                 game.drawImage(block)
             }
@@ -48,7 +47,7 @@ var Scene = function(game) {
         // 判断游戏结束
         if (ball.y > paddle.y) {
             // 跳转到 游戏结束 的场景
-            var end = SceneEnd.new(game)
+            let end = SceneEnd.new(game)
             game.replaceScene(end)
         }
         // 判断相撞
@@ -57,8 +56,9 @@ var Scene = function(game) {
             ball.反弹()
         }
         // 判断 ball 和 blocks 相撞
-        for (var i = 0; i < blocks.length; i++) {
-            var block = blocks[i]
+        let blocks = game.blocks
+        for (let i = 0; i < blocks.length; i++) {
+            let block = blocks[i]
             if (block.collide(ball)) {
                 // log('block 相撞')
                 block.kill()
@@ -70,10 +70,10 @@ var Scene = function(game) {
     }
 
     // mouse event
-    var enableDrag = false
+    let enableDrag = false
     game.canvas.addEventListener('mousedown', function(event) {
-        var x = event.offsetX
-        var y = event.offsetY
+        let x = event.offsetX
+        let y = event.offsetY
         log(x, y, event)
         // 检查是否点中了 ball
         if (ball.hasPoint(x, y)) {
@@ -82,8 +82,8 @@ var Scene = function(game) {
         }
     })
     game.canvas.addEventListener('mousemove', function(event) {
-        var x = event.offsetX
-        var y = event.offsetY
+        let x = event.offsetX
+        let y = event.offsetY
         // log(x, y, 'move')
         if (enableDrag) {
             log(x, y, 'drag')
@@ -92,8 +92,8 @@ var Scene = function(game) {
         }
     })
     game.canvas.addEventListener('mouseup', function(event) {
-        var x = event.offsetX
-        var y = event.offsetY
+        let x = event.offsetX
+        let y = event.offsetY
         log(x, y, 'up')
         enableDrag = false
     })

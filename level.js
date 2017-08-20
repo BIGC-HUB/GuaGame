@@ -1,4 +1,4 @@
-var levels = [
+let levels = [
     [
         [0, 0,],
     ],

@@ -1,6 +1,6 @@
-var Ball = function(game) {
-    var o = game.imageByName('ball')
-    // var image = imageFromPath('ball.png')
+let Ball = function(game) {
+    let o = game.imageByName('ball')
+    // let image = imageFromPath('ball.png')
     o.x = 100
     o.y = 200
     o.speedX = 5
@@ -27,8 +27,8 @@ var Ball = function(game) {
         o.speedY *= -1
     }
     o.hasPoint = function(x, y) {
-        var xIn = x >= o.x && x <= o.x + o.w
-        var yIn = y >= o.y && y <= o.y + o.h
+        let xIn = x >= o.x && x <= o.x + o.w
+        let yIn = y >= o.y && y <= o.y + o.h
         return xIn && yIn
     }
     return o
