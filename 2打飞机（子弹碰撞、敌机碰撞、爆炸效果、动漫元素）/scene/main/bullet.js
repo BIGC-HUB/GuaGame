@@ -7,7 +7,7 @@ class Bullet extends GuaImage {
         this.speed = config.naruto_bullet_speed.value
     }
     update(game) {
-        if (this.x < 750) {
+        if (this.x < this.game.canvas.width - this.w - 5) {
             this.x += this.speed
             // log('子弹',this.x,this.y)
             let enemies = this.game.scene.enemies || []
