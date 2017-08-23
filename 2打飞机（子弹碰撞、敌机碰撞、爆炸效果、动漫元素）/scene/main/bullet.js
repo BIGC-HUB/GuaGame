@@ -4,37 +4,40 @@ class Bullet extends GuaImage {
         this.setup()
     }
     setup(game) {
-        this.speed = config.bullet_speed.value
+        this.speed = config.naruto_bullet_speed.value
     }
     update(game) {
-        this.x += this.speed
-        // log('子弹',this.x,this.y)
-        let enemies = this.game.scene.enemies || []
-        for (let e of enemies) {
-            if (this.collide(e)) {
-                this.kill()
-                e.explode(e.x, e.y)
-                e.kill()
-            } else if (this.scene.player.collide(e)) {
-                log('撞上敌人')
-                this.scene.player.kill()
-                e.explode(e.x, e.y)
-                e.kill()
-            }
-        }
-        // 我军子弹
-        let playerBullets = this.scene.playerBullets || []
-        // 敌军子弹
-        let enemiesBullets = this.scene.enemiesBullets || []
-        for (let pb of playerBullets) {
-            for (let eb of enemiesBullets) {
-                if (pb.collide(eb)) {
-                    pb.kill()
-                    eb.kill()
+        if (this.x < 750) {
+            this.x += this.speed
+            // log('子弹',this.x,this.y)
+            let enemies = this.game.scene.enemies || []
+            for (let e of enemies) {
+                if (this.collide(e)) {
+                    this.kill()
+                    e.explode(e.x, e.y)
+                    e.kill()
+                } else if (this.scene.player.collide(e)) {
+                    log('撞上敌人')
+                    this.scene.player.kill()
+                    e.explode(e.x, e.y)
+                    e.kill()
                 }
             }
+            // 我军子弹
+            let playerBullets = this.scene.playerBullets || []
+            // 敌军子弹
+            let enemiesBullets = this.scene.enemiesBullets || []
+            for (let pb of playerBullets) {
+                for (let eb of enemiesBullets) {
+                    if (pb.collide(eb)) {
+                        pb.kill()
+                        eb.kill()
+                    }
+                }
 
+            }
         }
+
     }
     kill() {
         this.x = 900

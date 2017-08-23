@@ -12,11 +12,19 @@ let config = {
         value:5
     },
     bullet_speed: {
-        _comment:'手里剑的速度',
+        _comment:'敌军手里剑的速度',
         value:10,
     },
+    naruto_bullet_speed: {
+        _comment:'我军手里剑的速度',
+        value:30,
+    },
     fire_cooldown: {
-        _comment:'手里剑的间隙',
+        _comment:'敌军手里剑的间隙',
+        value:30,
+    },
+    naruto_fire_cooldown: {
+        _comment:'我军手里剑的间隙',
         value:10,
     },
 }

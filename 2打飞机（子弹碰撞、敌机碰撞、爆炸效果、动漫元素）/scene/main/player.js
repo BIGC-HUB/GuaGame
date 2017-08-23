@@ -17,7 +17,7 @@ class Player extends GuaImage {
         // let self = this
         let game = this.game
         if (this.cooldown == 0) {
-            this.cooldown = config.fire_cooldown.value
+            this.cooldown = config.naruto_fire_cooldown.value
             let x = this.x + this.w / 2
             let y = this.y
             let b = Bullet.new(game)

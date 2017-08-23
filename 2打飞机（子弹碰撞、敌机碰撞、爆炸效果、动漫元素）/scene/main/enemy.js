@@ -6,15 +6,16 @@ class Enemy extends GuaImage {
         this.setup()
     }
     setup(){
+        let c = this.game.canvas
         this.alive = true
         this.speed = randomBetween(2, 5)
-        this.x = randomBetween(0, 600)
-        this.y = -randomBetween(0, 200)
+        this.x = c.width
+        this.y = randomBetween(0, c.height - this.h)
         this.cooldown = 0
     }
     update() {
-        this.y += this.speed
-        if (this.y > 600) {
+        this.x -= this.speed
+        if (this.x < 0) {
             this.setup()
         }
         let game = this.game
@@ -36,7 +37,7 @@ class Enemy extends GuaImage {
     }
     kill() {
         //显示粒子动画然后消失
-        this.x = 1000
+        this.x = -1000
         this.alive = false
         // config.score += 1
         // log(config.score)

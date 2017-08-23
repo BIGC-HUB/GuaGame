@@ -7,15 +7,17 @@ class EnemyBullet extends GuaImage {
         this.speed = config.bullet_speed.value
     }
     update(game) {
-        this.x -= this.speed
-        let player = this.scene.player
-        if (this.collide(player)) {
-            this.kill()
-            player.kill()
+        if (this.x > 0) {
+            this.x -= this.speed
+            let player = this.scene.player
+            if (this.collide(player)) {
+                this.kill()
+                player.kill()
+            }
         }
     }
     kill() {
-        this.x = 900
+        this.x = -100
     }
 
     collide(ball){
