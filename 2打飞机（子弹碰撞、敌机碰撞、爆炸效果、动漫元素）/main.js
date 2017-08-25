@@ -47,9 +47,9 @@ let bindEvents = function() {
 
 let __main = function() {
     let images = {
-        bullet: 'img/carrot.png',
+        bullet: 'img/weapon.png',
         cloud: 'img/cloud.png',
-        player: 'img/rabbit.png',
+        player: 'img/naruto.png',
         start: 'img/start.png',
         sky: 'img/background.png',
         end: 'img/end.png',
@@ -57,8 +57,8 @@ let __main = function() {
         enemy1:'img/enemy1.png',
         enemy2:'img/enemy2.png',
         enemy3:'img/enemy3.png',
-        spark:'img/star.png',
-        carrot:'img/get.png',
+        spark:'img/boom.png',
+        get:'img/get.png',
         enemy_bullet:'img/enemy_bullet.png',
     }
 

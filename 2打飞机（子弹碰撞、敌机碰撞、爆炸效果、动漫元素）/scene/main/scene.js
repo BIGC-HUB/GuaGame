@@ -13,7 +13,7 @@ class Scene extends GuaScene {
         let game = this.game
         this.numberOfEnemies = 3
         this.bg = GuaImage.new(game, 'sky')
-        this.carrot = GuaImage.new(game, 'carrot')
+        this.get = GuaImage.new(game, 'get')
         this.cloud = Cloud.new(game, 'cloud')
         this.player = Player.new(game)
 
@@ -22,9 +22,9 @@ class Scene extends GuaScene {
         this.player.x = 0
         this.player.y = 150
         this.addElement(this.player)
-        this.carrot.x = 600
-        this.carrot.y = 250
-        this.addElement(this.carrot)
+        this.get.x = 600
+        this.get.y = 250
+        this.addElement(this.get)
 
         // 添加敌人
         this.addEnemies()
