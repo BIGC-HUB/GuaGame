@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>game 1</title>
+        <style media="screen">
+            canvas {
+                border: 1px black solid;
+            }
+        </style>
+        <!-- gua game 相关文件 -->
+        <script src="tomgame/utils.js"></script>
+        <script src="tomgame/gua_game.js"></script>
+        <script src="tomgame/gua_scene.js"></script>
+        <script src="tomgame/gua_image.js"></script>
+        <script src="tomgame/gua_label.js"></script>
+        <script src="tomgame/gua_partical.js"></script>
+        <script src="tomgame/gua_animation.js"></script>
+        <!-- 场景文件 -->
+        <script src="scene/main/paddle.js"></script>
+        <script src="scene/main/ball.js"></script>
+        <script src="scene/main/block.js"></script>
+        <script src="scene/main/scene.js"></script>
+            <!--小鸟场景文件-->
+        <script src="scene/title/gua_flappy.js"></script>
+        <script src="scene/title/gua_pipes.js"></script>
+        <script src="scene/title/gua_ground.js"></script>
+        <script src="scene/title/gua_button.js"></script>
+        <script src="scene/title/gua_modal.js"></script>
+        <!-- 结束和标题场景 -->
+        <script src="scene/end/scene_end.js"></script>
+        <script src='scene/title/scene_title.js'></script>
+        <script src="scene/title/scene_start.js"></script>
+        <!-- 关卡数据 -->
+        <script src="config.js"></script>
+    </head>
+  <body>
+        <canvas id="id-canvas" width="600" height="400"></canvas>
+        <hr>
+        <input id="id-input-speed" type="range" value="1"/>
+        <!-- <div class="">
+          <textarea id="id-text-log" rows="20" cols="80"></textarea>
+        </div> -->
+        <div class="config">
+
+        </div>
+        <script>
+            var es = sel => document.querySelectorAll(sel)
+
+            var bindAll = function(sel, eventName, callback) {
+                var l = es(sel)
+                for (var i = 0; i < l.length; i++) {
+                  var input = l[i]
+                  input.addEventListener(eventName, function(event) {
+                    callback(event)
+                  })
+                }
+            }
+
+            var template = function(key, item) {
+                var t = `
+                <div class="">
+                  <label>
+                    <input class="gua-auto-slider" type="range" max="1000" value="${item.value}" data-value="config.${key}"/>
+                    ${item._comment}: <span class="gua-label"></span>
+                  </label>
+                </div>
+                `
+                return t
+            }
+
+            var insertControls = function() {
+                var div = es('.config')[0]
+                var keys = Object.keys(config)
+                for (var k of keys) {
+                    var item = config[k]
+                    var html = template(k, item)
+                    div.insertAdjacentHTML('beforeend', html)
+                }
+            }
+
+            var bindEvents = function() {
+                bindAll('.gua-auto-slider', 'input', function(event) {
+                  var target = event.target
+                  var bindVar  = target.dataset.value
+                  var v = target.value
+                  eval(bindVar + '.value=' + v)
+                  var label = target.closest('label').querySelector('.gua-label')
+                  label.innerText = v
+                })
+            }
+
+            var __main = function() {
+                // 从配置文件生成 HTML 控件
+                insertControls()
+                // 绑定事件
+                bindEvents()
+            }
+            __main()
+            // 1.修改素材
+            // 2. 修改碰撞函数
+            // 3. 改变画布的颜色
+            // 4. 实现小球拖动
+
+            // 1.整理文件分类
+            // 2.面向对象重构
+
+            // var canvas = document.querySelector('#id-canvas')
+            // var context = canvas.getContext('2d')
+            //
+            // var x = 100
+            // var y = 250
+            // var leftdown = false
+            // var rightdown = false
+            // var speed = 5
+            // var img = new Image()
+            // img.src = 'paddle.png'
+            // img.onload = function(){
+            //     context.drawImage(img, x, y)
+            // }
+            // window.addEventListener('keydown', function(e) {
+            //    var k = e.key
+            //    if(k === 'a'){
+            //       leftdown = true
+            //    }else if(k === 'd'){
+            //       rightdown = true
+            //    }
+            // })
+            // window.addEventListener('keyup', function(e) {
+            //    var k = e.key
+            //    if(k === 'a'){
+            //       leftdown = false
+            //    }else if(k === 'd'){
+            //       rightdown = false
+            //    }
+            // })
+            // setInterval(function() {
+            //    // update x and y
+            //    if(leftdown) {
+            //        x -= speed
+            //    }else if (rightdown) {
+            //        x += speed
+            //    }
+            //    // draw
+            //    context.clearRect(0, 0, canvas.width, canvas.height)
+            //    context.drawImage(img, x, y);
+            // }, 1000/60)
+        </script>
+    </body>
+      <script src="main.js"></script>
+</html>
