@@ -1,9 +1,9 @@
 var config = {
     pipe_space:{
         _comment:'管子垂直方向的间距',
-        value:400,
-        max: 400,
-        min: 0,
+        value:700,
+        max: 700,
+        min: 700,
     },
     pipeCross :{
         _comment:'管子横向间距',

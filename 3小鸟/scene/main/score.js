@@ -50,11 +50,11 @@ class Scores {
 
     draw() {
         var context = this.game.context
-        var space = 20
-        for (var i = 0; i < this.images.length; i++) {
-            var image = this.images[i]
-            var x = 130 + space * i
-            var y  = 80
+        let arr = this.images
+        for (var i = 0; i < arr.length; i++) {
+            var image = arr[i]
+            var x = 250 - image.w / 2  + 24 * i
+            var y  = 488
             context.drawImage(image.texture, x, y)
         }
 

@@ -10,18 +10,7 @@ class Scene extends GuaScene {
         this.addBird()
         this.addScore()
         this.addOver()
-        // 分数
-        // var s = String(config.score)
-        // for (var i = 0; i < s.length; i++) {
-        //     let score = GuaImage.new(game,`score${s[i]}`)
-        //     score.x = 130 + (i * 20)
-        //     score.y = 130
-        //     this.addElement(score)
-        // }
         this.setupInputs()
-
-
-
     }
     debug() {
         this.birdSpeed = config.bird_speed.value
@@ -30,12 +19,8 @@ class Scene extends GuaScene {
     addOver() {
         var game = this.game
         this.over = GuaImage.new(game,'gameOver')
-        this.over.x = 50
+        this.over.x = 250 - this.over / 2
         this.over.y = 200
-
-        // this.restart = GuaImage.new(game, 'restart')
-        // this.restart.x = 40
-        // this.restart.y = 200
     }
 
     addScore() {
@@ -55,12 +40,6 @@ class Scene extends GuaScene {
 
     addGround() {
         var game = this.game
-        // this.ground = GuaImage.new(game, 'ground')
-        // this.ground.x = 0
-        // this.ground.y = 500
-        // this.ground.w = 700
-        // this.ground.h = 100
-        // this.addElement(this.ground)
         // 循环移动的地面
         this.grounds = []
         for (var i = 0; i < 20; i++) {
@@ -82,9 +61,7 @@ class Scene extends GuaScene {
         this.addElement(b)
     }
 
-    update() {
-        super.update()
-        //地面移动
+    aroundMove() {
         this.skipCount--
         var offset = -5
         if (this.skipCount == 0) {
@@ -95,16 +72,26 @@ class Scene extends GuaScene {
             var g = this.grounds[i]
             g.x += offset
         }
+        // 水管碰撞
         var ps = this.pipe.pipes
         for (var i = 0; i < ps.length; i++) {
             var o = this.b
             var a = ps[i]
             if (aInb(a.x, o.x, o.x + o.w) || aInb(o.x, a.x, a.x + a.w)) {
                 if (aInb(a.y, o.y, o.y + o.h) || aInb(o.y, a.y, a.y + a.h)) {
-                    this.b.y = 427
+                    this.end = true
                 }
             }
         }
+    }
+
+    update() {
+        super.update()
+        // 地面移动
+        if (!this.end) {
+            this.aroundMove()
+        }
+
         //更新分数
         var birdX = this.b.x
         for (var i = 0; i < this.pipe.columsOfPipe; i++) {
@@ -121,19 +108,17 @@ class Scene extends GuaScene {
         if (this.currentPipeX && birdX >= this.currentPipe.x + this.currentPipe.w) {
             this.currentPipeX = false
             this.scores.scores += 1
-            log('scores', this.scores.scores)
+            log('分数', this.scores.scores)
         }
 
     //判断死亡
-        if (this.b.y === 427) {
+        if (this.b.y === 427 || this.end) {
             this.addElement(this.over)
-            // this.addElement(this.restart)
             window.paused = true
-            // log('结束!')
+            this.end = true
         }
     }
     setupInputs() {
-        //这里的回调不能用 this
         var that = this
         //bird
         var b = this.bird
@@ -146,15 +131,13 @@ class Scene extends GuaScene {
         that.game.registerAction('j',function() {
             that.b.jump()
         })
-        //
+
         var game = this.game
         window.paused = false
         this.skipCount = 10
-        // this.end = false
+        this.end = false
 
         var firstPipe = this.pipe.pipes[0]
         this.currentPipeX = firstPipe.x + firstPipe.ws
-        //restart
-
     }
 }

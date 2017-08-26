@@ -50,7 +50,7 @@ var __main = function() {
         bird0: 'img/bird0_0.png',
         bird1: 'img/bird1_1.png',
         bird2: 'img/bird2_2.png',
-        bg: 'img/bg_day.png',
+        bg: 'img/bg_night.png',
         ground:'img/land.png',
         pipe_up:'img/pipe_up.png',
         pipe_down:'img/pipe_down.png',

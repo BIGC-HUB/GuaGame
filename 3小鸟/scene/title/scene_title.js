@@ -8,18 +8,18 @@ class SceneTitle extends GuaScene {
         var background = GuaImage.new(game,'bg')
         this.addElement(background)
         var begin = GuaImage.new(game,'begin')
-        begin.x = 50
+        begin.x = 250 - begin.w / 2
         begin.y = 140
         this.addElement(begin)
-        var beginLogo = GuaImage.new(game,'beginLogo')
-        beginLogo.x = 80
+        var beginLogo = GuaImage.new(game, 'beginLogo')
+        beginLogo.x = 250 - beginLogo.w / 2
         beginLogo.y = 250
         this.addElement(beginLogo)
 
         // 循环移动的地面
         this.grounds = []
         for (var i = 0; i < 20; i++) {
-            var g = GuaImage.new(game,'ground')
+            var g = GuaImage.new(game, 'ground')
             g.x = i * 19
             g.y = 460
             this.addElement(g)
@@ -30,7 +30,7 @@ class SceneTitle extends GuaScene {
         //bird
         this.birdSpeed = 2
         var b = StaticAnimation.new(game)
-        b.x = 120
+        b.x = 250 - b.w
         b.y = 90
         this.b = b
         this.addElement(b)
@@ -40,23 +40,23 @@ class SceneTitle extends GuaScene {
         })
 
         //游戏提示
-        var label = Gualabel.new(game, '                           print b to start')
+        var label = Gualabel.new(game, '按 b 开始飞', 222, 200)
         this.addElement(label)
     }
 
     update() {
         super.update()
         //地面移动
-        this.skipCount--
-        var offset = -5
-        if (this.skipCount == 0) {
-            this.skipCount = 4
-            offset = 15
-        }
-        for (var i = 0; i < 20; i++) {
-            var g = this.grounds[i]
-            g.x += offset
-        }
+        // this.skipCount--
+        // var offset = -5
+        // if (this.skipCount == 0) {
+        //     this.skipCount = 4
+        //     offset = 15
+        // }
+        // for (var i = 0; i < 20; i++) {
+        //     var g = this.grounds[i]
+        //     g.x += offset
+        // }
     }
 
 }

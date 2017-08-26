@@ -13,8 +13,6 @@ class StaticAnimation {
         this.h = this.texture.height
         this.frameIndex = 0
         this.frameCount = 3
-
-
     }
     static new(game) {
         return new this(game)
