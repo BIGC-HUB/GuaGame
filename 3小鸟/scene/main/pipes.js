@@ -3,6 +3,7 @@ class Pipes {
         this.game = game
         this.setup()
         this.addPipes()
+        this.debug()
     }
     static new(...args) {
         this.i = new this(...args)
@@ -12,19 +13,18 @@ class Pipes {
         this.pipes = []
         this.pipeSpace = 100
         this.pipeCross = 170
-        this.columsOfPipe = 3
+        this.columsOfPipe = 4
     }
     reset() {
-    for (var i = 0; i < this.columsOfPipe; i++) {
-        var index = i * 2
-        var p1 = this.pipes[index]
-        var p2 = this.pipes[index+1]
-        p1.x = 500 + i * this.pipeCross
-        p1.y = randonBetween(-200, 0)
-        this.resetPipesPostion(p1, p2)
+        for (var i = 0; i < this.columsOfPipe; i++) {
+            var index = i * 2
+            var p1 = this.pipes[index]
+            var p2 = this.pipes[index + 1]
+            p1.x = i * this.pipeCross
+            p1.y = randonBetween(-200, 0)
+            this.resetPipesPostion(p1, p2)
+        }
     }
-
-}
     addPipes() {
         var game = this.game
         for (var i = 0; i < this.columsOfPipe; i++) {

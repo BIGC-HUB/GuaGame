@@ -9,12 +9,19 @@ var config = {
         _comment:'管子横向间距',
         value:180,
         max: 300,
-    },
-    bird_speed:{
-        _comment:'鸟的速度',
-        value:2,
-        max: 300,
         min: 100,
+    },
+    bird_down:{
+        _comment:'鸟下坠的速度',
+        value:5,
+        max: 10,
+        min: 1,
+    },
+    bird_up:{
+        _comment:'鸟上升的速度',
+        value:5,
+        max: 10,
+        min: 1,
     },
     // score: 0,
 }

@@ -1,5 +1,8 @@
 class GuaAnimation {
     constructor(game) {
+
+        this.debug()
+
         this.game = game
         // 为了省事,在这里 hard code 一套动画
         this.frames = []
@@ -19,15 +22,21 @@ class GuaAnimation {
         this.rotation = 0
         this.alpha = 1
         // 重力加速度
-        this.gy = 10
+        this.gy = this.birdDown || 5
         this.vy = 0
 
     }
+
+    debug() {
+        this.birdUp = config.bird_up.value
+        this.birdDown = config.bird_down.value
+    }
+
     static new(game) {
         return new this(game)
     }
     jump() {
-        this.vy = -10
+        this.vy = -this.birdUp || -5
         this.rotation = -45
     }
     update() {

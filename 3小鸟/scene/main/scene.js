@@ -11,9 +11,6 @@ class Scene extends GuaScene {
         this.addScore()
         this.setupInputs()
     }
-    debug() {
-        this.birdSpeed = config.bird_speed.value
-    }
 
     addScore() {
         var game = this.game

@@ -10,14 +10,15 @@ var bindAll = function(sel, eventName, callback) {
     }
 }
 
-var templateControl = function(key,item) {
+var templateControl = function(key, e) {
     var t = `<div class="">
         <label>
             <input class="gua-auto-slider" type="range"
-                max='300'
-                value="${item.value}"
+                max='${e.max}'
+                min="${e.min}"
+                value="${e.value}"
                 data-value='config.${key}'>
-            ${item._comment}: <span class="gua-label"></span>
+            ${e._comment}: <span class="gua-label">${e.value}</span>
         </label>
     </div>`
     return t
