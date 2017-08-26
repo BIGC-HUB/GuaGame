@@ -11,12 +11,12 @@ class GuaGame {
         this.canvas = document.querySelector('#id-canvas')
         this.context = this.canvas.getContext('2d')
         // events
-        var self = this
+        var that = this
         window.addEventListener('keydown', event => {
             this.keydowns[event.key] = true
         })
         window.addEventListener('keyup', function(event){
-            self.keydowns[event.key] = false
+            that.keydowns[event.key] = false
         })
 
         this.init()

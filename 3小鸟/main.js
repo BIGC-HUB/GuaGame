@@ -48,13 +48,12 @@ var bindEvents = function() {
 var __main = function() {
     var images = {
         bird0: 'img/bird0_0.png',
-        bird1: 'img/bird0_1.png',
-        bird2: 'img/bird0_2.png',
+        bird1: 'img/bird1_1.png',
+        bird2: 'img/bird2_2.png',
         bg: 'img/bg_day.png',
         ground:'img/land.png',
         pipe_up:'img/pipe_up.png',
         pipe_down:'img/pipe_down.png',
-        // pipe:'img/pipe_up.png',
         begin:'img/text_ready.png',
         beginLogo:'img/button_play.png',
         score0:'img/score_0.png',
@@ -68,7 +67,6 @@ var __main = function() {
         score8:'img/score_8.png',
         score9:'img/score_9.png',
         gameOver:'img/text_game_over.png',
-        restart:'img/restart.png',
     }
     //从配置文件生成html控件
     insertControls()

@@ -31,7 +31,7 @@ class Bird extends GuaAnimation {
     setup() {
         this.rotation = 0
         this.alive = true
-        
+
         this.x = 100
         this.y = 200
 
@@ -50,17 +50,17 @@ class Bird extends GuaAnimation {
     }
 
     setupInput() {
-        var self = this
-        self.game.registerAction('d', function(status) {
-            self.move(2, status)
+        var that = this
+        that.game.registerAction('d', function(status) {
+            that.move(2, status)
         })
 
-        self.game.registerAction('a', function(status) {
-            self.move(-2, status)
+        that.game.registerAction('a', function(status) {
+            that.move(-2, status)
         })
 
-        self.game.registerAction('j', function(status) {
-            self.jump()
+        that.game.registerAction('j', function(status) {
+            that.jump()
         })
     }
 

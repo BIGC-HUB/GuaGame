@@ -33,9 +33,9 @@ class Scene extends GuaScene {
         this.over.x = 50
         this.over.y = 200
 
-        this.restart = GuaImage.new(game, 'restart')
-        this.restart.x = 40
-        this.restart.y = 200
+        // this.restart = GuaImage.new(game, 'restart')
+        // this.restart.x = 40
+        // this.restart.y = 200
     }
 
     addScore() {
@@ -126,27 +126,25 @@ class Scene extends GuaScene {
 
     //判断死亡
         if (this.b.y === 427) {
-            // var self = this
             this.addElement(this.over)
-            this.addElement(this.restart)
+            // this.addElement(this.restart)
             window.paused = true
-            log('结束!')
-
+            // log('结束!')
         }
     }
     setupInputs() {
         //这里的回调不能用 this
-        var self = this
+        var that = this
         //bird
         var b = this.bird
-        self.game.registerAction('a',function() {
-            self.b.move(-self.birdSpeed)
+        that.game.registerAction('a',function() {
+            that.b.move(-that.birdSpeed)
         })
-        self.game.registerAction('d',function() {
-            self.b.move(self.birdSpeed)
+        that.game.registerAction('d',function() {
+            that.b.move(that.birdSpeed)
         })
-        self.game.registerAction('j',function() {
-            self.b.jump()
+        that.game.registerAction('j',function() {
+            that.b.jump()
         })
         //
         var game = this.game
