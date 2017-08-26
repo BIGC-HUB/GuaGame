@@ -60,7 +60,7 @@ class Scene extends GuaScene {
         this.b = b
         this.addElement(b)
     }
-
+    // 地面移动
     aroundMove() {
         this.skipCount--
         var offset = -5
@@ -85,14 +85,8 @@ class Scene extends GuaScene {
         }
     }
 
-    update() {
-        super.update()
-        // 地面移动
-        if (!this.end) {
-            this.aroundMove()
-        }
-
-        //更新分数
+    //更新分数
+    updateScores() {
         var birdX = this.b.x
         for (var i = 0; i < this.pipe.columsOfPipe; i++) {
             var index = i * 2
@@ -110,6 +104,17 @@ class Scene extends GuaScene {
             this.scores.scores += 1
             log('分数', this.scores.scores)
         }
+    }
+
+    update() {
+        super.update()
+
+        if (!this.end) {
+            this.aroundMove()
+            this.updateScores()
+        }
+
+
 
     //判断死亡
         if (this.b.y === 427 || this.end) {

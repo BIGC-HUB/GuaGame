@@ -40,23 +40,12 @@ class SceneTitle extends GuaScene {
         })
 
         //游戏提示
-        var label = Gualabel.new(game, '按 b 开始飞', 222, 200)
+        var label = Gualabel.new(game, '按 b 开始 按 j 跳', 208, 200)
         this.addElement(label)
     }
 
     update() {
         super.update()
-        //地面移动
-        // this.skipCount--
-        // var offset = -5
-        // if (this.skipCount == 0) {
-        //     this.skipCount = 4
-        //     offset = 15
-        // }
-        // for (var i = 0; i < 20; i++) {
-        //     var g = this.grounds[i]
-        //     g.x += offset
-        // }
     }
 
 }

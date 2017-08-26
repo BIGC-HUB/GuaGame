@@ -13,7 +13,6 @@ class Pipes {
         this.pipeSpace = 100
         this.pipeCross = 170
         this.columsOfPipe = 3
-        // this.alive = true
     }
     reset() {
     for (var i = 0; i < this.columsOfPipe; i++) {
@@ -33,7 +32,6 @@ class Pipes {
 
             p1.x = 500 + i * this.pipeCross
             p1.y = randomBetween(-200, 0)
-
 
             var p2 = GuaImage.new(game, 'pipe_up')
 

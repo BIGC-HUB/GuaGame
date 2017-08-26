@@ -37,7 +37,6 @@ class Scores {
         return this.scoresImge[s]
     }
 
-
     update() {
         this.images = []
         var s = this.scores.toString()
