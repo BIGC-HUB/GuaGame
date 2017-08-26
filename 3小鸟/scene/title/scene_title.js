@@ -2,83 +2,61 @@
 class SceneTitle extends GuaScene {
     constructor(game) {
         super(game)
-        var f = Flappy.new(game)
-        this.f = f
-        // 由于不同的场景都有同样的背景， 因此抽取到scene中
-        // var bg = GuaImage.new(game, 'bg')
-        // bg.w = 600
-        // bg.h = 350
-        // this.addElement(bg)
-        // 加入水管
-        this.pipe = Pipes.new(game)
-        this.addElement(this.pipe)
-        // 添加地面
-        this.ground = Grounds.new(game)
-        this.addElement(this.ground)
-        this.addElement(f)
-        this.beginGame = false
-        this.setup()
-        // 添加开始按钮
-        this.start = StartButton.new(game, 'start')
-        this.addElement(this.start)
 
-        // 添加结束按钮
-        this.pause = PauseButton.new(game, 'pause')
-        this.addElement(this.pause)
 
-        // 添加结束游戏的 modal
-        this.modal = Modal.new(game)
-        this.addElement(this.modal)
-        this.closeModal = false
+        //bg
+        var background = GuaImage.new(game,'bg')
+        this.addElement(background)
+        var begin = GuaImage.new(game,'begin')
+        begin.x = 50
+        begin.y = 140
+        this.addElement(begin)
+        var beginLogo = GuaImage.new(game,'beginLogo')
+        beginLogo.x = 80
+        beginLogo.y = 250
+        this.addElement(beginLogo)
 
-        // 增加数字
-        this.number = Numbers.new(game)
-        this.number.generateNumber(10)
-        this.addElement(this.number)
-    }
-    drawText(font, style, text, x, y) {
-        var context = this.game.context
-        context.font=font;
-        context.fillStyle = style;
-        context.fillText(text, x, y)
-    }
-    draw() {
-        super.draw()
-        this.drawText("20px Arial", "black",`总得分: ${this.f.score}`, 500, 30)
-    }
-    setup() {
-        var self = this
-        self.game.registerAction('p', function(keyStatus) {
-            if(keyStatus === 'up') {
-                self.beginGame = !self.beginGame
-            }
-        })
-        self.game.registerAction('r', function(keyStatus) {
-            if(keyStatus === 'up') {
-                var s = SceneStart.new(self.game)
-                self.game.replaceScene(s)
-            }
+        // 循环移动的地面
+        this.grounds = []
+        for (var i = 0; i < 20; i++) {
+            var g = GuaImage.new(game,'ground')
+            g.x = i * 19
+            g.y = 460
+            this.addElement(g)
+            this.grounds.push(g)
+        }
+        this.skipCount = 4
+
+        //bird
+        this.birdSpeed = 2
+        var b = StaticAnimation.new(game)
+        b.x = 120
+        b.y = 90
+        this.b = b
+        this.addElement(b)
+        game.registerAction('b', function(){
+            var s = Scene.new(game)
+            game.replaceScene(s)
         })
 
-        self.game.canvas.addEventListener('click', (e) => {
-            if(e.offsetX > 438 && e.offsetX < 470) {
-                if(e.offsetY > 80 && e.offsetY < 110){
-                    this.closeModal = true
-                }
-            }
-        })
+        //游戏提示
+        var label = Gualabel.new(game, '                           print b to start')
+        this.addElement(label)
     }
+
     update() {
-        this.start.update()
-        this.pause.update()
-        this.modal.update()
-        if(this.beginGame) {
-            return
-        }
-        if(this.f.life == -1) {
-            // 小鸟生命值为 0, 设置model, 显示最终分数
-            return
-        }
         super.update()
+        //地面移动
+        this.skipCount--
+        var offset = -5
+        if (this.skipCount == 0) {
+            this.skipCount = 4
+            offset = 15
+        }
+        for (var i = 0; i < 20; i++) {
+            var g = this.grounds[i]
+            g.x += offset
+        }
     }
+
 }

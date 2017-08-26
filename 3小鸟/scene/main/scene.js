@@ -1,453 +1,162 @@
-/**
- * Created by liteng on 2017/7/29.
- */
-
-
-
-// 加血
-class Love extends GuaImage {
-    constructor(game, scene) {
-        super(game, 'love')
-        this.scene = scene
-        // var type = randomBetween(0, 4)
-        this.setup()
-    }
-
-    setup() {
-        this.life = 100
-        this.cooldown = 0
-        this.speed = randomBetween(2, 5)
-        this.x = randomBetween(0, 350)
-        this.y = -randomBetween(0, 200)
-    }
-    update() {
-          if(this.cooldown > 0) {
-              this.cooldown--
-          }
-          this.blast()
-          this.fire()
-          this.y += this.speed
-        if(this.y > 600 || this.cooldown == 0) {
-            this.setup()
-        }
-    }
-
-    debuger() {
-        this.speed = config.enemy_speed
-    }
-
-    fire() {
-        if(this.life > 0 && this.cooldown === 0) {
-            this.cooldown = 100
-        }
-    }
-
-    blast() {
-        var s = this.scene
-        var p = this.scene.player
-        if(this.life > 0 && p.life > 0 &&  this.collide(p, this)) {
-            // 子弹消失
-            this.life = 0
-            p.life += 30
-        }
-    }
-
-    // moveDown() {
-    //     this.y += this.speed
-    // }
-}
-
-class Bullet extends GuaImage {
-    constructor(game) {
-        super(game, 'bullet')
-        this.setup()
-    }
-
-    setup() {
-        this.speed = 3
-        this.life = 10
-    }
-
-    update() {
-        if(this.life > 0) {
-            this.blast()
-            this.y -= this.speed
-        }
-    }
-
-    debuger() {
-        this.speed = config.bullet_speed
-    }
-
-    blast() {
-        var game = this.game
-        this.scene.enemies.forEach((item, index) => {
-            if(this.life > 0 && item.life > 0 && this.collide(item, this)) {
-                // 需要在碰撞处加载粒子效果
-                this.scene.particleSystems = GuaParticleSystems.new(game, this.x, this.y)
-                this.scene.addElement(this.scene.particleSystems)
-
-                // 子弹和飞机消失
-                item.life = 0
-                this.life = 0
-            }
-        })
-    }
-
-}
-
-class Player extends GuaImage {
-    constructor(game) {
-        super(game, 'player')
-        this.game = game
-        this.setup()
-    }
-
-    setup() {
-        this.x = 100
-        this.y = 400
-        this.w = 100
-        this.h = 100
-        this.speed = 10
-        this.cooldown = 0
-        this.life = 100
-    }
-
-    update() {
-        if(this.cooldown > 0) {
-            this.cooldown--
-        }
-    }
-
-    debuger() {
-        this.speed = config.player_speed
-    }
-
-    moveLeft() {
-        if(this.x < 0) {
-          this.x = 0
-        }else {
-          this.x -= this.speed
-        }
-    }
-
-    moveRight() {
-        var w = this.game.canvas.clientWidth - this.game.scene.player.w
-        if(this.x > w) {
-          this.x = w
-        }else {
-          this.x += this.speed
-        }
-    }
-
-    moveUp() {
-        if(this.y < 0) {
-          this.y = 0
-        }else {
-          this.y -= this.speed
-        }
-    }
-
-    moveDown() {
-        var w = this.game.canvas.clientHeight + this.game.scene.player.h
-        if(this.y  > w) {
-          this.y = w
-        }else {
-          this.y += this.speed
-        }
-    }
-
-    fire() {
-        if(this.life > 0 && this.cooldown === 0) {
-            this.cooldown = 10
-            var x = this.x + this.w / 2.8
-            var y = this.y
-            var b = Bullet.new(this.game)
-            b.x = x
-            b.y = y - 5
-            this.scene.addElement(b)
-        }
-    }
-}
-
-class EnemyBullet extends GuaImage {
-    constructor(game) {
-        super(game, 'bullet')
-        this.setup()
-    }
-
-    setup() {
-        this.speed = 3
-        this.life = 100
-    }
-
-    update() {
-        this.blast()
-        this.y += this.speed
-    }
-
-    debuger() {
-        this.speed = config.bullet_speed
-    }
-
-    aInb(x, x1, x2) {
-        return x >= x1 && x <= x2
-    }
-
-    collide(o, ball) {
-        var a = o
-        var b = ball
-        var aInb = this.aInb
-        if(aInb(a.x, b.x, b.x + b.w,) || aInb(b.x, a.x, a.x + a.w) ) {
-            if(aInb(a.y, b.y, b.y + b.h) || aInb(b.y, a.y, a.y + a.h) && a.y === b.y + b.h) {
-                return true
-            }
-        }
-        return false
-    }
-
-    blast() {
-        var s = this.scene
-        var p = this.scene.player
-        if(this.life > 0 && p.life > 0 &&  this.collide(p, this)) {
-            // 子弹消失
-            this.life = 0
-            p.life -= 10
-            // 更新生命值显示
-            s.lifeCondition.text = `生命值: ${p.life}`
-            this.scene.particleSystems = GuaParticleSystems.new(this.game, this.x, this.y)
-            this.scene.addElement(this.scene.particleSystems)
-        }
-    }
-}
-
-class Enemy extends GuaImage {
-    constructor(game, scene) {
-        super(game, 'enemy')
-        this.scene = scene
-        // var type = randomBetween(0, 4)
-        this.setup()
-    }
-
-    setup() {
-        this.life = 100
-        this.cooldown = 0
-        this.speed = randomBetween(2, 5)
-        this.x = randomBetween(0, 350)
-        this.y = -randomBetween(0, 200)
-        // this.onFire()
-    }
-    // onFire() {
-    //         if(this.life > 0) {
-    //             this.fire()
-    //         }
-    // }
-    update() {
-          if(this.cooldown > 0) {
-              this.cooldown--
-          }
-          this.blast()
-          this.fire()
-          this.y += this.speed
-        if(this.y > 600) {
-            this.setup()
-            this.scene.enemies.push(this)
-        }
-    }
-
-    debuger() {
-        this.speed = config.enemy_speed
-    }
-
-    fire() {
-        if(this.life > 0 && this.cooldown === 0) {
-            this.cooldown = 100
-            var x = this.x + this.w / 2.8
-            var y = this.y
-            var b = EnemyBullet.new(this.game)
-            b.x = x - 5
-            b.y = y + 30
-            this.scene.addElement(b)
-        }
-    }
-
-    blast() {
-        var s = this.scene
-        var p = this.scene.player
-        if(this.life > 0 && p.life > 0 &&  this.collide(p, this)) {
-            // 子弹消失
-            this.life = 0
-            p.life = 0
-            // 更新生命值显示
-            s.lifeCondition.text = `生命值: ${p.life}`
-            this.scene.particleSystems = GuaParticleSystems.new(this.game, this.x, this.y)
-            this.scene.addElement(this.scene.particleSystems)
-        }
-    }
-
-    // moveDown() {
-    //     this.y += this.speed
-    // }
-}
-
 class Scene extends GuaScene {
     constructor(game) {
         super(game)
-        this.setup()
+
+        //bg
+        var background = GuaImage.new(game,'bg')
+        this.addElement(background)
+        this.addPipes()
+        this.addGround()
+        this.addBird()
+        this.addScore()
+        this.addOver()
+        // 分数
+        // var s = String(config.score)
+        // for (var i = 0; i < s.length; i++) {
+        //     let score = GuaImage.new(game,`score${s[i]}`)
+        //     score.x = 130 + (i * 20)
+        //     score.y = 130
+        //     this.addElement(score)
+        // }
         this.setupInputs()
+
+
+
+    }
+    debug() {
+        this.birdSpeed = config.bird_speed.value
     }
 
-    setup() {
+    addOver() {
         var game = this.game
-        this.numberOfEnemies = randomBetween(0, 10)
-        this.numberOfLoves = randomBetween(0, 2)
-        this.bg = GuaImage.new(game, 'sky')
-        this.player = Player.new(game)
+        this.over = GuaImage.new(game,'gameOver')
+        this.over.x = 50
+        this.over.y = 200
 
-        this.addElement(this.bg)
-        this.addElement(this.player)
-        // this.elements = []
-        // this.elements.push(this.bg)
-        // this.elements.push(this.player)
-
-        this.addEnemies()
-        // 增加生命值显示
-        this.lifeCondition = GuaLabel.new(game,  `生命值: ${this.player.life}`)
-        this.addElement(this.lifeCondition)
-
-        this.addLove()
+        this.restart = GuaImage.new(game, 'restart')
+        this.restart.x = 40
+        this.restart.y = 200
     }
-    addLove() {
-        var es = []
-        for(var i = 0; i < this.numberOfLoves; i++) {
-            var e = Love.new(this.game, this)
-            e.w = 10
-            e.h = 10
-            es.push(e)
-            this.addElement(e)
+
+    addScore() {
+        var game = this.game
+        this.scores = Scores.new(game)
+        // // this.bg.w = 400
+        // // this.bg.h = 600
+        this.addElement(this.scores)
+    }
+
+    addPipes() {
+        var game = this.game
+        //加入水管
+        this.pipe = Pipes.new(game)
+        this.addElement(this.pipe)
+    }
+
+    addGround() {
+        var game = this.game
+        // this.ground = GuaImage.new(game, 'ground')
+        // this.ground.x = 0
+        // this.ground.y = 500
+        // this.ground.w = 700
+        // this.ground.h = 100
+        // this.addElement(this.ground)
+        // 循环移动的地面
+        this.grounds = []
+        for (var i = 0; i < 20; i++) {
+            var g = GuaImage.new(game,'ground')
+            g.x = i * 19
+            g.y = 460
+            this.addElement(g)
+            this.grounds.push(g)
         }
     }
-    addEnemies() {
-        var es = []
-        for(var i = 0; i < this.numberOfEnemies; i++) {
-            var e = Enemy.new(this.game, this)
-            e.w = 60
-            e.h = 60
-            es.push(e)
-            this.addElement(e)
-        }
-        this.enemies = es
-    }
 
-    setupInputs() {
-        this.game.registerAction('a', () => {
-            this.player.moveLeft()
-        })
-
-        this.game.registerAction('d', () => {
-            this.player.moveRight()
-        })
-        this.game.registerAction('w', () => {
-            this.player.moveUp()
-        })
-        this.game.registerAction('s', () => {
-            this.player.moveDown()
-        })
-        this.game.registerAction('f', () => {
-            this.player.fire()
-        })
-    }
-
-    removeEnemies() {
-        // 从数组中删除已经爆炸的敌机
-        this.enemies = this.enemies.filter(item => item.life == 100)
+    addBird() {
+        //bird
+        var game = this.game
+        var b = GuaAnimation.new(game)
+        b.x = 100
+        b.y = 200
+        this.b = b
+        this.addElement(b)
     }
 
     update() {
-        this.removeEnemies()
         super.update()
+        //地面移动
+        this.skipCount--
+        var offset = -5
+        if (this.skipCount == 0) {
+            this.skipCount = 4
+            offset = 15
+        }
+        for (var i = 0; i < 20; i++) {
+            var g = this.grounds[i]
+            g.x += offset
+        }
+        var ps = this.pipe.pipes
+        for (var i = 0; i < ps.length; i++) {
+            var o = this.b
+            var a = ps[i]
+            if (aInb(a.x, o.x, o.x + o.w) || aInb(o.x, a.x, a.x + a.w)) {
+                if (aInb(a.y, o.y, o.y + o.h) || aInb(o.y, a.y, a.y + a.h)) {
+                    this.b.y = 427
+                }
+            }
+        }
+        //更新分数
+        var birdX = this.b.x
+        for (var i = 0; i < this.pipe.columsOfPipe; i++) {
+            var index = i * 2
+            var p1 = this.pipe.pipes[index]
+            var p2 = this.pipe.pipes[index+1]
+
+            if (birdX > p1.x && birdX < p1.x + p1.w) {
+                this.currentPipeX = true
+                this.currentPipe = p1
+            }
+        }
+
+        if (this.currentPipeX && birdX >= this.currentPipe.x + this.currentPipe.w) {
+            this.currentPipeX = false
+            this.scores.scores += 1
+            log('scores', this.scores.scores)
+        }
+
+    //判断死亡
+        if (this.b.y === 427) {
+            // var self = this
+            this.addElement(this.over)
+            this.addElement(this.restart)
+            window.paused = true
+            log('结束!')
+
+        }
+    }
+    setupInputs() {
+        //这里的回调不能用 this
+        var self = this
+        //bird
+        var b = this.bird
+        self.game.registerAction('a',function() {
+            self.b.move(-self.birdSpeed)
+        })
+        self.game.registerAction('d',function() {
+            self.b.move(self.birdSpeed)
+        })
+        self.game.registerAction('j',function() {
+            self.b.jump()
+        })
+        //
+        var game = this.game
+        window.paused = false
+        this.skipCount = 10
+        // this.end = false
+
+        var firstPipe = this.pipe.pipes[0]
+        this.currentPipeX = firstPipe.x + firstPipe.ws
+        //restart
+
     }
 }
-
-
-// var Scene = function(game) {
-//     var s = {
-//         game: game,
-//     }
-//     var ball = Ball(game)
-//     var paddle = Paddle(game)
-//     // var paused = false
-//     var score = 0
-//     game.registerAction('a', function() {
-//         paddle.moveLeft()
-//     })
-//
-//     game.registerAction('d', function() {
-//         paddle.moveRight()
-//     })
-//     game.registerAction('f', function() {
-//         ball.fire()
-//     })
-//     s.draw = function() {
-//         // draw 背景
-//         game.context.fillStyle = "#554"
-//         game.context.fillRect(0, 0, 1000, 500)
-//
-//         game.drawImage(paddle)
-//         game.drawImage(ball)
-//         for(var i = 0; i < blocks.length; i++){
-//             var block = blocks[i]
-//             if(block.alive) {
-//                 game.drawImage(block)
-//             }
-//         }
-//         game.context.fillText('分数：' + score, 10, 290);
-//     }
-//     s.update = function() {
-//         if(window.paused){
-//             return
-//         }
-//         ball.move()
-//         if (paddle.collide(ball)) {
-//             // 这里应该调用一个 ball.反弹() 来实现
-//             ball.rebound()
-//         }
-//         if(ball.y > paddle.y){
-//             var s = SceneEnd.new(game)
-//             game.runWithScene(s)
-//         }
-//
-//         // 这里需要判断 block 和 ball 是否相交
-//         for(var i = 0; i < blocks.length; i++){
-//             var block = blocks[i]
-//             if(block.collide(ball)) {
-//                 block.kill()
-//                 ball.rebound()
-//                 score += 100
-//             }
-//         }
-//     }
-//     var enableDrage = false
-//     game.canvas.addEventListener('mousedown', function(event) {
-//         // 在点击的时候判断是不是点击到那个物体,即判断 x y 是不是在点击的矩形里面
-//         var x = event.offsetX
-//         var y = event.offsetY
-//         log(ball)
-//         if(ball.hasPoint(x, y)){
-//             // 点击的是我们的目标物体
-//             enableDrage = true
-//         }
-//     })
-//     game.canvas.addEventListener('mousemove', function(event) {
-//         var x = event.offsetX
-//         var y = event.offsetY
-//         if(enableDrage){
-//             ball.x = x
-//             ball.y = y
-//         }
-//     })
-//     game.canvas.addEventListener('mouseup', function(event) {
-//         enableDrage = false
-//     })
-//     return s
-// }
