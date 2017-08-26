@@ -9,35 +9,23 @@ class Scene extends GuaScene {
         this.addGround()
         this.addBird()
         this.addScore()
-        this.addOver()
         this.setupInputs()
     }
     debug() {
         this.birdSpeed = config.bird_speed.value
     }
 
-    addOver() {
-        var game = this.game
-        this.over = GuaImage.new(game,'gameOver')
-        this.over.x = 250 - this.over / 2
-        this.over.y = 200
-    }
-
     addScore() {
         var game = this.game
         this.scores = Scores.new(game)
-        // // this.bg.w = 400
-        // // this.bg.h = 600
         this.addElement(this.scores)
     }
-
     addPipes() {
         var game = this.game
         //加入水管
         this.pipe = Pipes.new(game)
         this.addElement(this.pipe)
     }
-
     addGround() {
         var game = this.game
         // 循环移动的地面
@@ -102,23 +90,24 @@ class Scene extends GuaScene {
         if (this.currentPipeX && birdX >= this.currentPipe.x + this.currentPipe.w) {
             this.currentPipeX = false
             this.scores.scores += 1
-            log('分数', this.scores.scores)
+            this.game.scores = this.scores.scores
         }
     }
 
     update() {
         super.update()
-
+        let game = this.game
         if (!this.end) {
             this.aroundMove()
-            this.updateScores()
+            this.updateScores(game)
+        } else {
+            let s = SceneEnd.new(game)
+            game.replaceScene(s)
+            log('切换场景')
         }
-
-
 
     //判断死亡
         if (this.b.y === 427 || this.end) {
-            this.addElement(this.over)
             window.paused = true
             this.end = true
         }

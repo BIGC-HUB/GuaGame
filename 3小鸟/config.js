@@ -1,13 +1,13 @@
 var config = {
     pipe_space:{
         _comment:'管子垂直方向的间距',
-        value:700,
-        max: 700,
-        min: 700,
+        value:180,
+        max: 300,
+        min: 150,
     },
     pipeCross :{
         _comment:'管子横向间距',
-        value:200,
+        value:180,
         max: 300,
     },
     bird_speed:{
